@@ -1,12 +1,13 @@
 package ekansrm.exp.storm.wordcount;
 
-import backtype.storm.Config;
-import backtype.storm.LocalCluster;
-import backtype.storm.StormSubmitter;
-import backtype.storm.generated.AlreadyAliveException;
-import backtype.storm.generated.InvalidTopologyException;
-import backtype.storm.utils.Utils;
 
+import org.apache.storm.Config;
+import org.apache.storm.LocalCluster;
+import org.apache.storm.StormSubmitter;
+import org.apache.storm.generated.AlreadyAliveException;
+import org.apache.storm.generated.AuthorizationException;
+import org.apache.storm.generated.InvalidTopologyException;
+import org.apache.storm.utils.Utils;
 
 /**
  *
@@ -14,20 +15,20 @@ import backtype.storm.utils.Utils;
  */
 public class TopologySubmitLocal {
 
-  public static void main(String[] args) throws AlreadyAliveException, InvalidTopologyException {
+  public static void main(String[] args) throws AlreadyAliveException, InvalidTopologyException, AuthorizationException {
 
     Config config = new Config();
     config.setDebug(true);
 
     if(args!=null && args.length>0) {
       config.setNumWorkers(3);
-      StormSubmitter.submitTopology(args[0], config, Topology.simpleWordCountBuilder().createTopology());
+      StormSubmitter.submitTopology(args[0], config, Topology.redisWordCountBuilder().createTopology());
     } else {
       //创建一个本地模式cluster
       LocalCluster cluster = new LocalCluster();
       
       System.out.println("start word count");
-      cluster.submitTopology("word count", config, Topology.simpleWordCountBuilder().createTopology());
+      cluster.submitTopology("word count", config, Topology.redisWordCountBuilder().createTopology());
       
       //运行60s
       Utils.sleep(60000);
