@@ -36,7 +36,7 @@ public class Topology {
   }
 
   static public TopologyBuilder kafkaWordCountBuilder() {
-    String zks = "zk1.cloud:2181,zk2.cloud:2181,zk3.cloud:2181";
+    String zks = "storm_kafka_1:9092,storm_kafka_2:9092,storm_kafka_3:9092";
     String topic = "storm-word-count";
 
     // default zookeeper root configuration for storm
@@ -62,11 +62,6 @@ public class Topology {
   }
 
   static public TopologyBuilder redisWordCountBuilder() {
-
-    JedisPoolConfig poolConfig = new JedisPoolConfig.Builder()
-      .setHost("127.0.0.1").setPort(6379).build();
-    RedisStoreMapper storeMapper = new WordCountStoreMapper();
-    RedisStoreBolt storeBolt = new RedisStoreBolt(poolConfig, storeMapper);
 
     TopologyBuilder builder = new TopologyBuilder();
 

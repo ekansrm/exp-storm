@@ -28,22 +28,17 @@ public class TopologySubmitRemote {
     config.setNumWorkers(3);
 
     //配置nimbus连接主机地址，比如：192.168.10.1
-    config.put(Config.NIMBUS_SEEDS, Collections.singletonList("localhost"));
+    config.put(Config.NIMBUS_SEEDS, Collections.singletonList("127.0.0.1"));
 
     //配置nimbus连接端口，默认 6627
     config.put(Config.NIMBUS_THRIFT_PORT, 6627);
 
     JedisPoolConfig poolConfig = new JedisPoolConfig.Builder()
-      .setHost("172.22.0.14").setPort(6379).build();
+      .setHost("172.22.0.11").setPort(6379).build();
     RedisStoreMapper storeMapper = new WordCountStoreMapper();
     RedisStoreBolt storeBolt = new RedisStoreBolt(poolConfig, storeMapper);
 
-//    //配置zookeeper连接主机地址，可以使用集合存放多个
-//    config.put(Config.STORM_ZOOKEEPER_SERVERS, Arrays.asList(STORM_ZOOKEEPER_SERVERS));
-//    //配置zookeeper连接端口，默认2181
-//    config.put(Config.STORM_ZOOKEEPER_PORT,STORM_ZOOKEEPER_PORT);
-
-    TopologyBuilder builder = Topology.redisWordCountBuilder();
+    TopologyBuilder builder = Topology.kafkaWordCountBuilder();
 
     builder.setBolt("redis", storeBolt).shuffleGrouping("word-counter");
 
