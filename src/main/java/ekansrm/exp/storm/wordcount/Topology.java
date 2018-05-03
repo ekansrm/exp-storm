@@ -31,7 +31,7 @@ public class Topology {
   }
 
   static public TopologyBuilder kafkaWordCountBuilder() {
-    String zks = "172.22.0.6:2181,172.22.0.5:2181,172.22.0.9:2181";
+    String zks = "zk1.cloud:2181,zk2.cloud:2181,zk3.cloud:2181";
     String topic = "storm-word-count";
 
     // default zookeeper root configuration for storm

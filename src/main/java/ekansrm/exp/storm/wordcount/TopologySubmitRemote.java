@@ -35,18 +35,18 @@ public class TopologySubmitRemote {
 
     //配置nimbus连接端口，默认 6627
     config.put(Config.NIMBUS_THRIFT_PORT, 6627);
-    config.put(Config.STORM_ZOOKEEPER_SERVERS, Arrays.asList("172.22.0.6", "172.22.0.5", "172.22.0.9"));
+    config.put(Config.STORM_ZOOKEEPER_SERVERS, Arrays.asList("zk1.cloud", "zk2.cloud", "zk3.cloud"));
     config.put(Config.STORM_ZOOKEEPER_PORT, 2181);
 
-    Map<String, String> map =new HashMap<>();
-    // 配置Kafka broker地址
-    map.put("metadata.broker.list", "172.22.0.2:9092,172.22.0.3:9092,172.22.0.4:9092");
-    // serializer.class为消息的序列化类
-    map.put("serializer.class", "kafka.serializer.StringEncoder");
+//    Map<String, String> map =new HashMap<>();
+//    // 配置Kafka broker地址
+//    map.put("metadata.broker.list", "172.21.0.10:9092");
+//    // serializer.class为消息的序列化类
+//    map.put("serializer.class", "kafka.serializer.StringEncoder");
+//
+//    config.put("kafka.broker.properties", map);
 
-    config.put("kafka.broker.properties", map);
-
-    JedisPoolConfig poolConfig = new JedisPoolConfig.Builder().setHost("storm-redis").setPort(6379).build();
+    JedisPoolConfig poolConfig = new JedisPoolConfig.Builder().setHost("redis").setPort(6379).build();
     RedisStoreMapper storeMapper = new WordCountStoreMapper();
     RedisStoreBolt storeBolt = new RedisStoreBolt(poolConfig, storeMapper);
 
