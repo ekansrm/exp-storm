@@ -41,7 +41,7 @@ public class BoltWordCounter implements IRichBolt {
       count++;
     }
     counts.put(w, count);
-    collector.emit(new Values("word",count));
+    collector.emit(new Values(w,count));
 
     System.out.println(w + ":" + Integer.toString(count));
     //确认成功处理一个tuple
